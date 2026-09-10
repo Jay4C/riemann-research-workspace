@@ -1,0 +1,2 @@
+id,title,status,category,claim,script,input_data,output_data,precision_digits,created,last_run,notes
+EXP-001,Zeta Sanity Checks,READY,validation,,001_zeta_sanity/run.py,,001_zeta_sanity/results.json,80,2026-09-10,,Initial verification of zeta-related numerical routines.

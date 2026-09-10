@@ -1,0 +1,27 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <list>
+          <option value="pandas" />
+          <option value="scipy" />
+          <option value="scikit-learn" />
+          <option value="torch" />
+          <option value="keras" />
+          <option value="python-docx" />
+          <option value="python-pptx" />
+          <option value="google-cloud-documentai" />
+          <option value="google-cloud-bigquery" />
+          <option value="google-cloud-aiplatform" />
+          <option value="google-genai" />
+          <option value="jira" />
+          <option value="atlassian-python-api" />
+          <option value="python-gitlab" />
+          <option value="PyGithub" />
+          <option value="openai" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

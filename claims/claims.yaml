@@ -1,0 +1,203 @@
+metadata:
+  project_name: "Riemann Research Workspace"
+  version: "0.1.0"
+  created: "2026-09-10"
+  status: "research"
+  objective: >
+    Étudier l'hypothèse de Riemann à travers une démarche
+    rigoureuse, reproductible et falsifiable.
+
+research_governance:
+
+  principles:
+    - Aucun résultat numérique n'est considéré comme une preuve.
+    - Toute nouvelle affirmation reçoit un identifiant unique.
+    - Toute équivalence doit être démontrée dans les deux sens.
+    - Les tentatives réfutées sont conservées.
+    - Les preuves doivent être relues indépendamment.
+
+  statuses:
+    - OPEN
+    - IN_PROGRESS
+    - PARTIAL
+    - REFUTED
+    - BLOCKED
+    - PROVED
+
+claims:
+
+  - id: RH
+    title: "Hypothèse de Riemann"
+    status: OPEN
+
+    statement: >
+      Tous les zéros non triviaux de la fonction zêta de Riemann
+      possèdent une partie réelle égale à 1/2.
+
+    category: target
+
+    dependencies: []
+
+    equivalent_forms:
+
+      - "Critère de Li"
+      - "Critère de Weil"
+      - "Critère de Báez-Duarte"
+      - "Nyman-Beurling"
+
+    references:
+
+      - Titchmarsh_1986
+      - Edwards_1974
+      - Clay_Institute_RH
+
+    falsification_tests:
+
+      - rechercher_zero_hors_ligne_critique
+      - verifier_equivalence_li
+
+  - id: HYP-0001
+
+    title: "Positivité d'une suite associée"
+
+    status: OPEN
+
+    category: candidate_approach
+
+    statement: >
+      Il pourrait exister une famille de formes quadratiques
+      dont la positivité est équivalente à RH.
+
+    dependencies:
+      - RH
+
+    evidence:
+
+      supporting:
+        - Critère de Li
+
+      opposing:
+        - Aucun résultat concluant
+
+  - id: HYP-0002
+
+    title: "Approche spectrale Hilbert-Pólya"
+
+    status: OPEN
+
+    category: spectral
+
+    statement: >
+      Les zéros non triviaux de zêta correspondent au spectre
+      d'un opérateur auto-adjoint.
+
+    dependencies:
+      - RH
+
+    known_difficulties:
+
+      - Construction de l'opérateur
+      - Définition du domaine
+      - Auto-adjonction rigoureuse
+
+  - id: RES-0001
+
+    title: "Premiers zéros connus"
+
+    status: PROVED
+
+    category: established_fact
+
+    statement: >
+      Les premiers zéros calculés numériquement
+      appartiennent à la droite critique.
+
+    limitations:
+      - résultat fini
+      - ne constitue pas une preuve de RH
+
+proof_obligations:
+
+  - id: OBL-0001
+
+    title: "Prolongement analytique"
+
+    status: PROVED
+
+    description: >
+      Définir zêta sur tout le plan complexe privé
+      du pôle en 1.
+
+  - id: OBL-0002
+
+    title: "Équation fonctionnelle"
+
+    status: PROVED
+
+    description: >
+      Vérifier l'identité fonctionnelle utilisée
+      dans tous les développements.
+
+  - id: OBL-0003
+
+    title: "Construction opérateur spectrale"
+
+    status: OPEN
+
+    description: >
+      Construire un opérateur auto-adjoint possédant
+      exactement les zéros comme spectre.
+
+experiments:
+
+  - id: EXP-001
+
+    title: "Validation des premiers zéros"
+
+    status: READY
+
+    script: "experiments/001_zeta_sanity/run.py"
+
+    output:
+      - "results.json"
+
+    objective: >
+      Vérification numérique de cohérence.
+
+reviews:
+
+  required_reviewers: 2
+
+  checklist:
+
+    - vérifier_absence_circularité
+    - vérifier_limites
+    - vérifier_estimation_uniforme
+    - vérifier_singularités
+    - vérifier_termes_de_bord
+    - vérifier_hypothèses_cachées
+
+publication:
+
+  manuscript:
+    latex_root: "paper/main.tex"
+
+  bibliography:
+    - Titchmarsh_1986
+    - Edwards_1974
+    - Bombieri_2000
+    - Sarnak_2004
+
+awards:
+
+  clay_millennium:
+    applicable: true
+    status: unresolved
+
+  fields_medal:
+    applicable: conditional
+
+  nobel_prize:
+    applicable: false
+    note: >
+      Il n'existe pas de prix Nobel de mathématiques.
