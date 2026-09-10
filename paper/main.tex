@@ -1,0 +1,57 @@
+
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Théorème}[section]
+\newtheorem{lemma}[theorem]{Lemme}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollaire}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Définition}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remarque}
+
+\title{Research Notes on the Riemann Hypothesis}
+\author{Jason ALOYAU}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Ce document constitue un cadre de recherche,
+de vérification et de documentation relatif à
+l'hypothèse de Riemann.
+
+Aucune démonstration de l'hypothèse de Riemann
+n'est revendiquée dans ce manuscrit.
+\end{abstract}
+
+\tableofcontents
+
+\input{sections/01_statement}
+\input{sections/02_known_results}
+\input{sections/03_candidate_strategy}
+\input{sections/04_lemmas}
+\input{sections/05_failure_analysis}
+\input{sections/06_computational_evidence}
+\input{sections/07_conclusion}
+
+\bibliographystyle{alpha}
+\bibliography{references}
+
+\end{document}
