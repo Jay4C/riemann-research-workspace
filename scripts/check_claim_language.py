@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Scientific Language Checker
 
@@ -35,9 +36,8 @@ from __future__ import annotations
 import argparse
 import re
 import sys
-from pathlib import Path
 from dataclasses import dataclass
-
+from pathlib import Path
 
 ###############################################################################
 # CONFIGURATION
@@ -53,7 +53,6 @@ SUPPORTED_EXTENSIONS = {
     ".yml",
 }
 
-# Expressions à risque
 RISK_PATTERNS = {
     "HIGH": [
         r"\bproof of the riemann hypothesis\b",
@@ -80,7 +79,6 @@ RISK_PATTERNS = {
     ],
 }
 
-# Mots qui réduisent le risque
 SAFE_CONTEXT = [
     "does not prove",
     "does not constitute a proof",
@@ -96,7 +94,7 @@ SAFE_CONTEXT = [
 ###############################################################################
 
 
-@dataclass
+@dataclass(slots=True)
 class Finding:
     level: str
     file: str
@@ -106,15 +104,17 @@ class Finding:
 
 
 ###############################################################################
-# ANALYSIS
+# HELPERS
 ###############################################################################
 
 
 def is_supported(path: Path) -> bool:
+    """Return True if the file extension is supported."""
     return path.suffix.lower() in SUPPORTED_EXTENSIONS
 
 
 def has_safe_context(line: str) -> bool:
+    """Detects phrases that intentionally avoid overclaiming."""
     lower = line.lower()
 
     return any(
@@ -123,23 +123,34 @@ def has_safe_context(line: str) -> bool:
     )
 
 
-def scan_file(path: Path) -> listfindings = []
+###############################################################################
+# FILE ANALYSIS
+###############################################################################
+
+
+def scan_file(path: Path) -> list:
+    """Scan a single file and return findings."""
+
+    findings: list[Finding] = []
 
     try:
         lines = path.read_text(
             encoding="utf-8",
-            errors="ignore"
+            errors="ignore",
         ).splitlines()
 
-    except Exception:
+    except Exception as exc:
+        print(
+            f"WARNING: Cannot read file {path}: {exc}"
+        )
         return findings
 
     for lineno, line in enumerate(lines, start=1):
 
-        lower = line.lower()
-
-        if has_safe_context(lower):
+        if has_safe_context(line):
             continue
+
+        lower = line.lower()
 
         for level, patterns in RISK_PATTERNS.items():
 
@@ -153,9 +164,30 @@ def scan_file(path: Path) -> listfindings = []
                             file=str(path),
                             line=lineno,
                             pattern=pattern,
-                            text=line.strip()
+                            text=line.strip(),
                         )
                     )
+
+    return findings
+
+
+###############################################################################
+# REPOSITORY ANALYSIS
+###############################################################################
+
+
+def scan_repository(root: Path) -> list:
+    """Scan recursively all supported files."""
+
+    findings: list[Finding] = []
+
+    for file in root.rglob("*"):
+
+        if file.is_file() and is_supported(file):
+
+            findings.extend(
+                scan_file(file)
+            )
 
     return findings
 
@@ -165,7 +197,7 @@ def scan_file(path: Path) -> listfindings = []
 ###############################################################################
 
 
-def print_header():
+def print_header() -> None:
 
     print("\n" + "=" * 80)
     print("RIEMANN RESEARCH WORKSPACE")
@@ -174,13 +206,15 @@ def print_header():
     print()
 
 
-def print_findings(findings):
+def print_findings(findings: list[Finding]) -> None:
 
     if not findings:
         print("No problematic language detected.\n")
         return
 
-    print(f"{len(findings)} potential issue(s) detected.\n")
+    print(
+        f"{len(findings)} potential issue(s) detected.\n"
+    )
 
     for finding in findings:
 
@@ -202,7 +236,7 @@ def print_findings(findings):
     print()
 
 
-def summarize(findings):
+def summarize(findings: list[Finding]) -> None:
 
     summary = {
         "HIGH": 0,
@@ -210,8 +244,9 @@ def summarize(findings):
         "LOW": 0,
     }
 
-    for f in findings:
-        summary[f.level] += 1
+    for finding in findings:
+
+        summary[finding.level] += 1
 
     print("Summary")
     print("-------")
@@ -226,29 +261,11 @@ def summarize(findings):
 
 
 ###############################################################################
-# REPOSITORY SCAN
-###############################################################################
-
-
-def scan_repository(root: Path) -> listfindings = []
-
-    for file in root.rglob("*"):
-
-        if file.is_file() and is_supported(file):
-
-            findings.extend(
-                scan_file(file)
-            )
-
-    return findings
-
-
-###############################################################################
 # MAIN
 ###############################################################################
 
 
-def main():
+def main() -> None:
 
     parser = argparse.ArgumentParser(
         description="Scientific language checker"
@@ -258,12 +275,20 @@ def main():
         "path",
         nargs="?",
         default=".",
-        help="Repository path"
+        help="Repository path to scan",
     )
 
     args = parser.parse_args()
 
     root = Path(args.path).resolve()
+
+    if not root.exists():
+
+        print(
+            f"ERROR: Path does not exist: {root}"
+        )
+
+        sys.exit(2)
 
     print_header()
 
