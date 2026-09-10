@@ -1,0 +1,169 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+###############################################################################
+# PROJECT
+###############################################################################
+
+[project]
+name = "riemann-research-workspace"
+version = "0.1.0"
+description = "Reproducible research workspace for investigations related to the Riemann Hypothesis."
+readme = "README.md"
+
+authors = [
+  { name = "Jason ALOYAU" }
+]
+
+license = { text = "MIT" }
+
+requires-python = ">=3.11"
+
+keywords = [
+  "riemann-hypothesis",
+  "zeta-function",
+  "number-theory",
+  "analytic-number-theory",
+  "research",
+  "mathematics",
+  "scientific-computing"
+]
+
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering :: Mathematics",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "License :: OSI Approved :: MIT License"
+]
+
+dependencies = [
+  "mpmath>=1.3.0",
+  "numpy>=2.0.0",
+  "pandas>=2.2.0",
+  "pyyaml>=6.0"
+]
+
+###############################################################################
+# OPTIONAL DEPENDENCIES
+###############################################################################
+
+[project.optional-dependencies]
+
+dev = [
+  "pytest>=8.3",
+  "pytest-cov>=5.0",
+  "ruff>=0.6",
+  "black>=24.0",
+  "mypy>=1.10"
+]
+
+docs = [
+  "pandocfilters>=1.5"
+]
+
+###############################################################################
+# URLS
+###############################################################################
+
+[project.urls]
+Repository = "https://github.com/<your-account>/riemann-research-workspace"
+Documentation = "https://github.com/<your-account>/riemann-research-workspace"
+Issues = "https://github.com/<your-account>/riemann-research-workspace/issues"
+
+###############################################################################
+# SETUPTOOLS
+###############################################################################
+
+[tool.setuptools]
+
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+###############################################################################
+# PYTEST
+###############################################################################
+
+[tool.pytest.ini_options]
+
+testpaths = [
+  "tests"
+]
+
+pythonpath = [
+  "src"
+]
+
+addopts = [
+  "-v",
+  "--strict-markers",
+  "--tb=short"
+]
+
+###############################################################################
+# COVERAGE
+###############################################################################
+
+[tool.coverage.run]
+
+source = [
+  "src/riemann_lab"
+]
+
+branch = true
+
+###############################################################################
+# BLACK
+###############################################################################
+
+[tool.black]
+
+line-length = 88
+target-version = ["py311"]
+
+###############################################################################
+# RUFF
+###############################################################################
+
+[tool.ruff]
+
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+
+select = [
+  "E",
+  "F",
+  "I",
+  "UP",
+  "B"
+]
+
+###############################################################################
+# MYPY
+###############################################################################
+
+[tool.mypy]
+
+python_version = "3.11"
+
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+
+###############################################################################
+# RESEARCH METADATA
+###############################################################################
+
+[tool.riemann_workspace]
+
+project_type = "research"
+focus = "riemann_hypothesis"
+
+reproducibility_required = true
+formal_verification_enabled = true
